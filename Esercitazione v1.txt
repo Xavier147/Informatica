@@ -1,0 +1,277 @@
+import java.util.GregorianCalendar;
+import java.util.Scanner;
+
+public class UnDJStatico {
+	public static int puntatoreN = 0;
+	public static int puntatoreU = 0;
+	public static GregorianCalendar vDate[] = new GregorianCalendar[20];
+	public static Scanner leggi = new Scanner(System.in);
+	public static LP Giradischi[] = new LP[20];
+
+	public static void main(String[] args) {
+		int i;
+		for (i = 0; i < 20; i++) {
+			Giradischi[i] = new LP();
+		}
+		menu();
+
+	}
+
+	public static void inserimento() {
+		String t, n;
+		int nTr, secondi, g, m, a, gp, mp, ap, scelta = 0;
+		float pr;
+		GregorianCalendar data;
+
+		do {
+			System.out.print("Inserisci il nome dell' album: ");
+			t = leggi.next();
+			System.out.println("");
+			System.out.println("");
+
+			System.out.print("Inserisci il nome del cantante: ");
+			n = leggi.next();
+			System.out.println("");
+			System.out.println("");
+
+			System.out.print("Inserisci il numero delle tracce: ");
+			nTr = leggi.nextInt();
+			System.out.println("");
+			System.out.println("");
+
+			System.out
+					.print("Inserisci la lunghezza totale dell' album in secondi: ");
+			secondi = leggi.nextInt();
+			System.out.println("");
+			System.out.println("");
+
+			System.out.println("Inserisci la data di pubblicazione... ");
+			System.out.println("");
+			System.out.print("Giorno: ");
+			g = leggi.nextInt();
+			System.out.println("");
+
+			System.out.print("Mese: ");
+			m = leggi.nextInt();
+			System.out.println("");
+
+			System.out.print("Anno: ");
+			a = leggi.nextInt();
+
+			System.out.println("");
+			System.out.println("");
+
+			System.out.print("Inserisci il prezzo in euro: ");
+			pr = leggi.nextFloat();
+
+			System.out.println("");
+			System.out.println("");
+			do {
+				System.out.println("Confermare l'inserimento?");
+				System.out.println("[1] Si.");
+				System.out.println("[2] No.");
+				System.out.println("");
+				scelta = leggi.nextInt();
+				if (scelta < 1 || scelta > 2) {
+					System.out.println("");
+					System.out.println("Valore non valido");
+					System.out.println("");
+				}
+			} while (scelta < 1 || scelta > 2);
+		} while (scelta != 1);
+
+		Giradischi[puntatoreN].dataPubblicazione = new GregorianCalendar(g, m,
+				a);
+
+		Giradischi[puntatoreN].dataPubblicazione.set(
+				GregorianCalendar.DAY_OF_MONTH, g);
+		Giradischi[puntatoreN].dataPubblicazione
+				.set(GregorianCalendar.MONTH, m);
+		Giradischi[puntatoreN].dataPubblicazione.set(GregorianCalendar.YEAR, a);
+
+		gp = Giradischi[puntatoreN].dataPubblicazione
+				.get(GregorianCalendar.DAY_OF_MONTH);
+		mp = Giradischi[puntatoreN].dataPubblicazione
+				.get(GregorianCalendar.MONTH);
+		ap = Giradischi[puntatoreN].dataPubblicazione
+				.get(GregorianCalendar.YEAR);
+
+		System.out.println(gp + "/" + mp + "/" + ap);
+
+		Giradischi[puntatoreN].durata = secondi;
+		Giradischi[puntatoreN].nomeBrano = t;
+		Giradischi[puntatoreN].nomeCantante = n;
+		Giradischi[puntatoreN].numTracce = nTr;
+		Giradischi[puntatoreN].prezzo = pr;
+
+		puntatoreN++;
+		if (puntatoreN > 0) {
+			puntatoreU++;
+		}
+		menu();
+
+	}
+
+	public static void estrazione() {
+		int sc;
+		if (puntatoreN > 0) {
+
+			System.out
+					.println("Sicuri di voler rimuovere l'ultimo disco inserito?");
+			System.out.println(" - '" + Giradischi[puntatoreU].nomeBrano
+					+ "' -");
+			System.out.println("[1] Si.");
+			System.out.println("[2] No.");
+			sc = leggi.nextInt();
+			switch (sc) {
+			case 1:
+				System.out.println("Il disco '"
+						+ Giradischi[puntatoreU].nomeBrano
+						+ "' è stato rimosso.");
+
+				Giradischi[puntatoreU].dataPubblicazione = null;
+				Giradischi[puntatoreU].nomeBrano = null;
+				Giradischi[puntatoreU].nomeCantante = null;
+				Giradischi[puntatoreU].prezzo = 0;
+				Giradischi[puntatoreU].durata = 0;
+				Giradischi[puntatoreU].numTracce = 0;
+				puntatoreN--;
+				puntatoreU--;
+				menu();
+				break;
+
+			case 2:
+				System.out.println("Operazione annullata");
+				menu();
+
+				break;
+
+			}
+		} else {
+			System.out.println("ATTENZIONE: Nessun disco è stato inserito");
+			System.out.println("");
+			System.out.println("     Premere un tasto per continuare");
+			System.out.println("           Ritorno al menu...");
+			menu();
+		}
+
+	}
+
+	public static void menu() {
+		int sc;
+		System.out.println(" Seleziona l'azione che si vuole eseguire:");
+		System.out.println("");
+		System.out.println("  [1] Inserimento di un nuovo album");
+		System.out.println("  [2] Estrazione dell'ultimo disco inserito");
+		System.out.println("  [3] Elenco degli album inseriti");
+		System.out.println("  [4] Ricerca di un album");
+		System.out.println("  [5] Esci");
+		sc = leggi.nextInt();
+		switch (sc) {
+		case 1:
+			inserimento();
+			break;
+		case 2:
+			estrazione();
+			break;
+		case 3:
+			elenco();
+		case 4:
+			ricerca();
+		case 5:
+			esci();
+		}
+	}
+
+	public static void elenco() {
+		System.out.println("Ecco l'elenco degli album inseriti: ");
+		System.out.println("");
+		System.out.println(puntatoreN);
+		for (int i = 0; i < puntatoreN; i++) {
+			System.out.println(i + 1 + ". " + Giradischi[i].nomeBrano + " - "
+					+ Giradischi[i].nomeCantante);
+		}
+		System.out.println("Premere invio per continuare");
+		System.out.println("");
+		String sc = "_";
+		sc = leggi.next();
+		menu();
+	}
+
+	public static void ricerca() {
+
+		// INSERIMENTO GG MM AAAA
+
+		if (puntatoreN > 0) {
+			int a = 0, m = 0, g = 0, x = -1, i;
+			boolean trovata = false;
+			GregorianCalendar dataR;
+			System.out
+					.println("Inserire il titolo del quale si vuole cercare la data di pubblicazione:");
+			System.out.println("");
+			System.out.println("");
+			System.out.println("Inserisci la data di pubblicazione... ");
+			System.out.println("");
+			System.out.print("Giorno: ");
+			g = leggi.nextInt();
+			System.out.println("");
+			System.out.print("Mese: ");
+			m = leggi.nextInt();
+			System.out.println("");
+			System.out.print("Anno: ");
+			a = leggi.nextInt();
+			System.out.println("");
+			System.out
+					.println("Ricercheremo la seguente data di pubblicazione: ");
+			System.out.println(". . .");
+			System.out.print(g + "/" + m + "/" + a);
+			dataR = new GregorianCalendar(a, m, g);
+
+			for (i = 0; i < puntatoreU; i++) {
+				if (!(Giradischi[i].dataPubblicazione.after(dataR) || Giradischi[i].dataPubblicazione
+						.before(dataR))) {
+					x = i;
+				}
+			}
+			if (x >= 0) {
+				System.out.println("Album trovato");
+				System.out.println("Il nome dell'album è: " + "'"
+						+ Giradischi[x].nomeBrano + "'");
+				System.out.println("Di " + "'" + Giradischi[x].nomeCantante
+						+ "'");
+				System.out.println("");
+				System.out.println("Premere un tasto per continuare");
+			} else {
+				System.out.println("Nessun disco trovato ");
+				System.out.println("Premere un tasto per continuare");
+			}
+
+		} else {
+			System.out.println("ATTENZIONE: Nessun disco è stato inserito");
+			System.out.println("");
+			System.out.println("     Premere un tasto per continuare");
+			System.out.println("           Ritorno al menu...");
+			menu();
+		}
+
+	}
+
+	public static void esci() {
+		System.out.println("/¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯\\");
+		System.out.println("|  Grazie di aver utilizzato il programma!  |");
+		System.out.println("\\______________| Cannone S. |_______________/");
+	}
+
+	public static void cls() {
+		int i;
+		System.out.println("");
+		System.out.println("");
+		System.out
+				.println("__________________________________________________________");
+		for (i = 0; i < 50; i++) {
+			System.out.println("");
+		}
+		System.out
+				.println("__________________________________________________________");
+	}
+}
