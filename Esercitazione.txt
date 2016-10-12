@@ -1,0 +1,202 @@
+import java.util.GregorianCalendar;
+import java.util.Scanner;
+
+public class UnDJStatico {
+	public static int cont = 0;
+	public static GregorianCalendar vDate[] = new GregorianCalendar[20];
+	public static Scanner leggi = new Scanner(System.in);
+	public static LP Giradischi[] = new LP[20];
+
+	public static void main(String[] args) {
+		// VETTORE DI DATE
+		GregorianCalendar vDate[];
+
+		menu();
+
+	}
+
+	public static void inserimento() {
+		String t, n;
+		int nTr, secondi, g, m, a, scelta = 0;
+		float pr;
+		GregorianCalendar data;
+
+		do {
+			System.out.print("Inserisci il nome dell' album: ");
+			t = leggi.next();
+			System.out.println("");
+			System.out.println("");
+
+			System.out.print("Inserisci il nome del cantante: ");
+			n = leggi.next();
+			System.out.println("");
+			System.out.println("");
+
+			System.out.print("Inserisci il numero delle tracce: ");
+			nTr = leggi.nextInt();
+			System.out.println("");
+			System.out.println("");
+
+			System.out
+					.print("Inserisci la lunghezza totale dell' album in secondi: ");
+			secondi = leggi.nextInt();
+			System.out.println("");
+			System.out.println("");
+
+			System.out.println("Inserisci la data di pubblicazione... ");
+			System.out.println("");
+			System.out.print("Giorno: ");
+			g = leggi.nextInt();
+			System.out.println("");
+
+			System.out.print("Mese: ");
+			m = leggi.nextInt();
+			System.out.println("");
+
+			System.out.print("Anno: ");
+			a = leggi.nextInt();
+
+			System.out.println("");
+			System.out.println("");
+
+			System.out.print("Inserisci il prezzo in euro: ");
+			pr = leggi.nextFloat();
+
+			System.out.println("");
+			System.out.println("");
+			do {
+				System.out.println("Confermare l'inserimento?");
+				System.out.println("[1] Si.");
+				System.out.println("[2] No.");
+				System.out.println("");
+				scelta = leggi.nextInt();
+				if (scelta < 1 || scelta > 2) {
+					System.out.println("");
+					System.out.println("Valore non valido");
+					System.out.println("");
+				}
+			} while (scelta < 1 || scelta > 2);
+		} while (scelta != 1);
+
+		data = new GregorianCalendar(a, m, g);
+		Giradischi[cont] = new LP();
+		Giradischi[cont].dataPubblicazione = data;
+		Giradischi[cont].durata = secondi;
+		Giradischi[cont].nomeBrano = t;
+		Giradischi[cont].nomeCantante = n;
+		Giradischi[cont].numTracce = nTr;
+		Giradischi[cont].prezzo = pr;
+
+		cont++;
+
+	}
+
+	public static void estrazione() {
+		int sc;
+		System.out.println("Sicuri di rimuovere l'ultimo disco inserito?");
+		System.out.println(" - '" + Giradischi[cont].nomeBrano + "' -");
+		System.out.println("[1] Si.");
+		System.out.println("[2] No.");
+		sc = leggi.nextInt();
+		switch (sc) {
+		case 1:
+			System.out.println("Il disco '" + Giradischi[cont].nomeBrano
+					+ "' è stato rimosso.");
+			
+			Giradischi[cont].dataPubblicazione = null;
+			Giradischi[cont].nomeBrano = null;
+			Giradischi[cont].nomeCantante = null;
+			Giradischi[cont].prezzo = 0;
+			Giradischi[cont].durata = 0;
+			Giradischi[cont].numTracce = 0;
+			cont--;
+
+			break;
+
+		case 2:
+			System.out.println("Operazione annullata");
+			menu();
+
+			break;
+
+		}
+
+	}
+
+	public static void menu() {
+		int sc;
+		System.out.println("Seleziona l'azione che si vuole eseguire:");
+		System.out.println("");
+		System.out.println("");
+		System.out.println("  [1] Inserimento di un nuovo album");
+		System.out.println("  [2] Estrazione dell'ultimo disco inserito");
+		System.out.println("  [3] Elenco degli album inseriti");
+		System.out.println("  [4] Ricerca di un album");
+		System.out.println("  [5] Esci");
+		sc = leggi.nextInt();
+		switch (sc) {
+		case 1:
+			inserimento();
+			break;
+		case 2:
+			estrazione();
+			break;
+		case 3:
+			elenco();
+		case 4:
+			ricerca();
+		case 5:
+			esci();
+		}
+	}
+
+	public static void elenco() {
+		System.out.println("Ecco l'elenco degli album inseriti: ");
+		System.out.println("");
+		for(int i = 0; i <= cont;i++){
+			System.out.println(i+1 +". " + Giradischi[i].nomeBrano + " - " + Giradischi[i].nomeCantante);
+		}
+		System.out.println("Premere un tasto per continuare");
+		System.out.println("");
+		System.out.println("[1] Si. ");
+		int sc;
+		sc = leggi.nextInt();
+		switch(sc){
+		case 1:
+			System.out.println("");
+			System.out.println("Ritorno al menù");
+			menu();
+		}
+	}
+
+	public static void ricerca() {
+
+	}
+
+	public static void esci() {
+		System.out.println("/¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯\\");
+		System.out.println("|  Grazie di aver utilizzato il programma!  |");
+		System.out.println("\\______________| Cannone S. |_______________/");
+	}
+}
+
+
+
+
+
+
+
+
+
+
+import java.util.GregorianCalendar;
+
+	public class LP {
+		String nomeBrano;
+		String nomeCantante;
+		int numTracce;
+		int durata;
+		GregorianCalendar dataPubblicazione = new GregorianCalendar();
+		float prezzo;
+
+	}
